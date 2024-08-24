@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotional Image Gallery</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Full-screen image container */
+        #image-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            animation: zoomEffect 4s ease-in-out infinite;
+        }
+
+        @keyframes zoomEffect {
+            0% {
+                transform: scale(1.1);
+                filter: blur(2px);
+            }
+            50% {
+                transform: scale(1);
+                filter: blur(0);
+            }
+            100% {
+                transform: scale(1.1);
+                filter: blur(2px);
+            }
+        }
+
+        /* Glitch Effect */
+        @keyframes glitchEffect {
+            0% {
+                clip: rect(42px, 9999px, 44px, 0);
+            }
+            25% {
+                clip: rect(85px, 9999px, 12px, 0);
+            }
+            50% {
+                clip: rect(28px, 9999px, 92px, 0);
+            }
+            75% {
+                clip: rect(48px, 9999px, 22px, 0);
+            }
+            100% {
+                clip: rect(65px, 9999px, 75px, 0);
+            }
+        }
+
+        /* Rain Effect */
+        .rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('rain.png') repeat top center;
+            opacity: 0.15;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Fog Effect */
+        .fog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('fog.png') repeat top center;
+            opacity: 0.1;
+            z-index: 1;
+            pointer-events: none;
+            animation: fogMove 20s linear infinite;
+        }
+
+        @keyframes fogMove {
+            from {
+                transform: translateX(-10%);
+            }
+            to {
+                transform: translateX(10%);
+            }
+        }
+
+        /* Petal Falling Effect */
+        .petal {
+            position: absolute;
+            top: -50px;
+            width: 20px;
+            height: 20px;
+            background: url('petal.png') no-repeat center/contain;
+            animation: fall 10s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background images container -->
+    <div id="image-container"></div>
+
+    <!-- Rain effect -->
+    <div class="rain"></div>
+
+    <!-- Fog effect -->
+    <div class="fog"></div>
+
+    <!-- Falling petals -->
+    <div class="petal" style="left: 20%; animation-delay: 0s;"></div>
+    <div class="petal" style="left: 40%; animation-delay: 2s;"></div>
+    <div class="petal" style="left: 60%; animation-delay: 4s;"></div>
+    <div class="petal" style="left: 80%; animation-delay: 6s;"></div>
+
+    <!-- Background music -->
+    <audio id="backgroundMusic" autoplay loop>
+        <source src="sad_image_background.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        const imageContainer = document.getElementById('image-container');
+
+        const images = [
+            "image1.jpg",
+            "image2.jpg",
+            "image3.jpg",
+            "image4.jpg",
+            "image5.jpg",
+            "image6.jpg",
+            "image7.jpg",
+            "image8.jpg",
+            "image9.jpg",
+            "image10.jpg"
+        ];
+
+        let currentImageIndex = 0;
+
+        function changeImage() {
+            imageContainer.style.backgroundImage = `url('${images[currentImageIndex]}')`;
+            imageContainer.style.animation = "glitchEffect 1s infinite alternate";
+            setTimeout(() => imageContainer.style.animation = "", 500); // Glitch effect applied for half a second
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+        }
+
+        setInterval(changeImage, 4000); // Change every 4 seconds
+        changeImage(); // Set the initial background
+    </script>
+
+</body>
+
+</html>
