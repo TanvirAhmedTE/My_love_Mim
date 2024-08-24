@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotional Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Background image container */
+        #background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            animation: fade 6s infinite;
+        }
+
+        @keyframes fade {
+            0% { opacity: 1; }
+            33% { opacity: 0; }
+            66% { opacity: 1; }
+        }
+
+        /* Broken heart container */
+        .heart-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+            z-index: 2;
+            animation: pulse 2s infinite;
+        }
+
+        .heart-container img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: transform 2s ease-in-out;
+        }
+
+        /* Initial state where both parts look like a complete heart */
+        .left-part, .right-part {
+            transform: translateX(0);
+        }
+
+        /* When clicked, the heart breaks apart */
+        .left-part.active {
+            transform: translateX(-150%);
+        }
+
+        .right-part.active {
+            transform: translateX(150%);
+        }
+
+        /* Emotional text box */
+        .message-box {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 20px;
+            background: rgba(255, 0, 0, 0.2); /* Transparent bloody background */
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 3;
+            text-align: center;
+        }
+
+        .message-box p {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff0000;
+            font-family: 'Courier New', monospace;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+        }
+
+        .message-box.active {
+            opacity: 1;
+        }
+
+        /* Button for navigating to the images page */
+        .button-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
+        }
+
+        .button-container a {
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px 20px;
+            background: #ff0000;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
+            transition: background 0.3s;
+        }
+
+        .button-container a:hover {
+            background: #ff4444;
+        }
+
+        /* Animation keyframes */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background images container -->
+    <div id="background"></div>
+
+    <div class="heart-container" id="heartContainer">
+        <img src="left-heart.png" class="left-part" id="leftHeart">
+        <img src="right-heart.png" class="right-part" id="rightHeart">
+    </div>
+
+    <div class="message-box" id="messageBox">
+        <p>💔Mim💔<br>💔🥀I will miss you🥀💔</p>
+    </div>
+
+    <div class="button-container">
+        <a href="images.html">👉Click Here Sweetheart❤️</a>
+    </div>
+
+    <audio id="backgroundMusic">
+        <source src="sad_background.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        const heartContainer = document.getElementById('heartContainer');
+        const leftHeart = document.getElementById('leftHeart');
+        const rightHeart = document.getElementById('rightHeart');
+        const messageBox = document.getElementById('messageBox');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const background = document.getElementById('background');
+
+        const backgrounds = [
+            "background1.jpg",
+            "background2.jpg",
+            "background3.jpg"
+        ];
+
+        let currentBackgroundIndex = 0;
+
+        function changeBackground() {
+            background.style.backgroundImage = `url('${backgrounds[currentBackgroundIndex]}')`;
+            currentBackgroundIndex = (currentBackgroundIndex + 1) % backgrounds.length;
+        }
+
+        setInterval(changeBackground, 6000); // Change every 6 seconds
+        changeBackground(); // Set the initial background
+
+        heartContainer.addEventListener('click', function () {
+            // Start the background music
+            backgroundMusic.play();
+
+            // Trigger the heart split animation
+            leftHeart.classList.add('active');
+            rightHeart.classList.add('active');
+
+            // Show the message box
+            setTimeout(() => {
+                messageBox.classList.add('active');
+            }, 2000); // Message box appears 2 seconds after heart breaks
+        });
+    </script>
+
+</body>
+</html>
